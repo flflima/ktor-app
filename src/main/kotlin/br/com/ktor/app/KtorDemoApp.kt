@@ -10,6 +10,7 @@ import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.lang.System.getenv
 
 fun Application.module() {
     install(DefaultHeaders)
@@ -22,5 +23,5 @@ fun Application.module() {
 }
 
 fun main() {
-    embeddedServer(Netty, 8080, watchPaths = listOf("ktor-app"), module = Application::module).start(true)
+    embeddedServer(Netty, getenv("PORT")?.toInt() ?: 8080, watchPaths = listOf("ktor-app"), module = Application::module).start(true)
 }

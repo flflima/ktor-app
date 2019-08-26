@@ -1,2 +1,2 @@
-web: java -jar build/libs/ktor-app.jar
+web: java -jar -Dserver.port=$PORT build/libs/ktor-app.jar
 
