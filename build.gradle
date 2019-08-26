@@ -46,4 +46,14 @@ test {
 }
 
 // Define the main class for the application
-mainClassName = "br.com.ktor.app.AppKt"
+mainClassName = "br.com.ktor.app.KtorDemoAppKt"
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
