@@ -5,9 +5,11 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.DefaultHeaders
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import java.lang.System.getenv
@@ -19,9 +21,15 @@ fun Application.module() {
         get("/") {
             call.respondText("hello world 2")
         }
+        post("/my-post") {
+            call.respond("OK")
+        }
     }
 }
 
 fun main() {
-    embeddedServer(Netty, getenv("PORT")?.toInt() ?: 8080, watchPaths = listOf("ktor-app"), module = Application::module).start(true)
+    embeddedServer(factory = Netty,
+            port = getenv("PORT")?.toInt() ?: 8080,
+            watchPaths = listOf("ktor-app"),
+            module = Application::module).start(true)
 }
