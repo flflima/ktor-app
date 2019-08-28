@@ -1,10 +1,12 @@
 package br.com.ktor.app
 
+import br.com.ktor.app.model.Person
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CallLogging
 import io.ktor.features.DefaultHeaders
+import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
@@ -23,6 +25,10 @@ fun Application.module() {
         }
         post("/my-post") {
             call.respond("OK")
+        }
+        post("/persons") {
+            val person = call.receive<Person>()
+            call.respond(mapOf("OK" to true))
         }
     }
 }
