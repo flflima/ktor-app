@@ -24,6 +24,10 @@ ext {
     junit_version = '5.3.1'
 }
 
+configurations {
+    ktlint
+}
+
 dependencies {
     // Use the Kotlin JDK 8 standard library
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
@@ -35,6 +39,27 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+
+    ktlint "com.pinterest:ktlint:0.34.2"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt"
 }
 
 test {
