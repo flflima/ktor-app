@@ -1,0 +1,69 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server of Person register."
+  version: "0.1.0"
+  title: "Swagger Person"
+host: "localhost:8080"
+basePath: "/"
+tags:
+- name: "persons"
+  description: "Informations about a PERSON"
+schemes:
+- "https"
+- "http"
+paths:
+  /persons:
+    post:
+      tags:
+      - "persons"
+      summary: "Creates a new person"
+      description: ""
+      operationId: "addPerson"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Person object"
+        required: true
+        schema:
+          $ref: '#/definitions/Person'
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "successful operation"
+          schema:
+            $ref: '#/definitions/Person'
+definitions:
+  Person:
+    type: "object"
+    required:
+    - "name"
+    - "document"
+    - "birthdate"
+    - "email"
+    properties:
+      name:
+        type: "string"
+        example: "John Smith"
+        description: "A person's name"
+      document:
+        type: "string"
+        example: "11111111111"
+        description: "The person's document"
+      birthdate:
+        type: "string"
+        format: "date"
+        description: "The person's birthdate"
+      address:
+        type: "string"
+        example: "Main Street"
+        description: "The person's address"
+      email:
+        type: "string"
+        example: "john@smith.com"
+        description: "The person's e-mail"
+        
